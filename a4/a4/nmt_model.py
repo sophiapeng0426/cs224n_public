@@ -77,6 +77,7 @@ class NMT(nn.Module):
         # output, (hn, cn) = self.encoder(self.model_embeddings, )
         self.h_projection = nn.linear(in_features=2*self.hidden_size, out_features=self.hidden_size, bias=False)
         self.c_projection = nn.linear(in_features=2*self.hidden_size, out_features=self.hidden_size, bias=False)
+
         self.att_projection = nn.linear(in_features=2*self.hidden_size, out_features=self.hidden_size, bias=False) 
         self.combined_output_projection = nn.linear(in_features=3*self.hidden_size, out_features=self.hidden_size, bias=False)
         self.target_vocab_projection = nn.linear(in_features=self.hidden_size, out_features=self.embed_size, bias=False)
@@ -171,6 +172,14 @@ class NMT(nn.Module):
         ###     Tensor Permute:
         ###         https://pytorch.org/docs/stable/tensors.html#torch.Tensor.permute
 
+        X = self.model_embeddings.source(source_padded) # (src_len, b, e) ?
+        # All RNN modules accept packed sequences as inputs.
+        enc_hiddens = pad_packed_sequence(self.encoder(pack_padded_sequence(X)), batch_first=True)
+        
+
+
+
+        
 
         ### END YOUR CODE
 

@@ -29,14 +29,12 @@ def pad_sents(sents, pad_token):
     sents_padded = []
 
     ### YOUR CODE HERE (~6 Lines)
-    sent_length = [len(x.split()) for x in sents]
+    sent_length = [len(x) for x in sents]
     max_length = max(sent_length)
-    for i, sent in enumerate(sents):
-        if sent_length[i] < max_length:
-            pad_length = max_length - sent_length[i]
-            # front padding
-            sent = " ".join([pad_token for m in range(pad_length)] + [x for x in sent.split()])
-        sents_padded.append(sent)
+    for sent in sents:
+        sent_length = len(sent)
+        # back padding, why don't we use front padding?
+        sents_padded.append(sent + (max_len - sent_len) * [pad_token])
     ### END YOUR CODE
 
     return sents_padded
